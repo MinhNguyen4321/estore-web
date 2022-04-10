@@ -15,9 +15,9 @@ const Toast = Swal.mixin({
 })
 
 // Active nav item by url
-$(document).ready(function() {
+$(document).ready(function () {
     let url = window.location.href;
-    $('.widget-filter-item').each(function() {
+    $('.widget-filter-item').each(function () {
         if (url.includes($(this).attr('data-value').replaceAll('#!', ''))) {
             $(this).addClass('active');
         } else {
@@ -42,8 +42,6 @@ function addOrUpdateUrl(url, key, value) {
     }
 }
 
-//
-
 // Change the language
 $("a[href*=lang]").on("click", function () {
     let param = $(this).attr("href");
@@ -67,33 +65,52 @@ $("#search-form").submit(function () {
 });
 
 /* Products --------------------------------------------------------------------------------------------------------- */
-function filterProduct (key, value) {
+function filterProduct(key, value) {
     let url = window.location.href;
     window.location.href = addOrUpdateUrl(url, key, value);
 }
+
 /* Cart ------------------------------------------------------------------------------------------------------------- */
+
 /* Add to cart */
 function addToCart(productId) {
-    /*let quantity = $('#select-quantity').val();
-    $.ajax({
-        url: baseUrl + '/api/carts',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            productId: productId,
-            quantity: !quantity ? 1 : quantity
-        }),
-        success: function() {
-            location.reload();
-        }
-    });*/
+    // let quantity = $('#select-quantity').val();
+    // $.ajax({
+    //     url: baseUrl + '/api/carts',
+    //     type: 'POST',
+    //     contentType: 'application/json',
+    //     data: JSON.stringify({
+    //         productId: productId,
+    //         quantity: !quantity ? 1 : quantity
+    //     }),
+    //     success: function() {
+    //         location.reload();
+    //     }
+    // });
 
     if (!$('#is-customer').val()) {
         Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: lang === 'vi' ? 'Không thể thực hiện thao tác này!' : 'You can not perform this action!',
-        })
+            icon: 'info',
+            text: lang === 'vi' ? 'Chỉ được phép truy cập cho người dùng đăng ký' : 'Ascess is allowed only for registered users',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: lang === 'vi' ? 'Đăng ký' : 'Register',
+            denyButtonText: lang === 'vi' ? 'Đăng nhập' : 'Login',
+            cancelButtonText: lang === 'vi' ? 'Hủy' : 'Cancel',
+            customClass: {
+                confirmButton: 'btn btn-primary py-1',
+                denyButton: 'btn btn-warning py-1 mx-3',
+                cancelButton: 'btn btn-secondary py-1'
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = baseUrl + '/register';
+            }
+            if (result.isDenied) {
+                window.location.href = baseUrl + '/login';
+            }
+        });
         return false;
     }
 
@@ -144,12 +161,12 @@ function updateQuantity(id, quantity) {
     });
 }
 
-function imposeMinMax(el){
-    if(el.value !== ""){
-        if(parseInt(el.value) < parseInt(el.min)){
+function imposeMinMax(el) {
+    if (el.value !== "") {
+        if (parseInt(el.value) < parseInt(el.min)) {
             el.value = el.min;
         }
-        if(parseInt(el.value) > parseInt(el.max)){
+        if (parseInt(el.value) > parseInt(el.max)) {
             el.value = el.max;
         }
     }
@@ -159,16 +176,16 @@ function imposeMinMax(el){
 }
 
 /* Order ------------------------------------------------------------------------------------------------------------ */
-$(document).ready(function() {
+$(document).ready(function () {
     $('#order-history-table').DataTable({
         "scrollY": false,
         "language": {
             "url": lang === "vi" ? "//cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json" : "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
         },
-        "order": [[ 1, "desc" ]],
+        "order": [[1, "desc"]],
         "responsive": true
     });
-} );
+});
 
 $('.modal-body').find('.order-detail-item:last-child').removeClass("pb-3 pb-sm-2 border-bottom");
 

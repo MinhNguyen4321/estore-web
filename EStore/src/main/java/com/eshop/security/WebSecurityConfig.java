@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -84,8 +85,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/assets/**", "/login/**", "/logout/**", "/register/**", "/home/**", "/product-list/**",
                         "/product-detail/**", "/forgot-password/**", "/verify", "/reset-password/**", "/error/**").permitAll()
-                /*.antMatchers( "/change-password/**", "/user-profile/**", "/order-history/**",
-                        "/checkout-detail/**").access("hasAnyRole('ROLE_CUSTOMER', 'ROLE_STAFF', 'ROLE_DIRECTOR')")*/
+                //.antMatchers( "/change-password/**", "/user-profile/**", "/order-history/**",
+                //        "/checkout-detail/**").access("hasAnyRole('ROLE_CUSTOMER', 'ROLE_STAFF', 'ROLE_DIRECTOR')")
                 .antMatchers( "/shopping-cart/**", "/api/carts").access("hasRole('ROLE_CUSTOMER')")
                 .antMatchers( "/dashboard/**").access("hasAnyRole('ROLE_STAFF', 'ROLE_DIRECTOR')")
                 .anyRequest().authenticated();
@@ -94,10 +95,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/home", false)
                 .successHandler(successHandler());
-                //.failureHandler(authenticationFailureHandler())
+                //.failureHandler(authenticationFailureHandler());
         http.exceptionHandling()
-                .accessDeniedPage("/error/forbidden");
-        //        .authenticationEntryPoint(unauthorizedHandler);
+                .accessDeniedPage("/error/forbidden")
+                .authenticationEntryPoint(unauthorizedHandler);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.logout()
 				.deleteCookies("JSESSIONID")
@@ -108,7 +109,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	        .userDetailsService(userDetailService())
     	        .tokenValiditySeconds(24 * 60 * 60);
 
-        //http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

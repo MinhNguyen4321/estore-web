@@ -38,7 +38,12 @@ public class HomeController {
     }
 
     @GetMapping("/error/forbidden")
-    public String showError403Page() {
+    public String showErrorForbidden() {
         return "error/forbidden";
+    }
+
+    @GetMapping("/error/unauthorized")
+    public String showErrorUnauthorized() {
+        return "error/unauthorized";
     }
 }
