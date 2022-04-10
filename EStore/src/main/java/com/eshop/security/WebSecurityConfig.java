@@ -8,13 +8,13 @@ import com.eshop.security.service.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,6 +35,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -84,22 +90,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .cors().disable();
         http.authorizeRequests()
                 .antMatchers("/", "/assets/**", "/login/**", "/logout/**", "/register/**", "/home/**", "/product-list/**",
-                        "/product-detail/**", "/forgot-password/**", "/verify", "/reset-password/**", "/error/**").permitAll()
+                        "/product-detail/**", "/forgot-password/**", "/verify", "/reset-password/**", "/error/**", "/api/auth/**").permitAll()
                 //.antMatchers( "/change-password/**", "/user-profile/**", "/order-history/**",
                 //        "/checkout-detail/**").access("hasAnyRole('ROLE_CUSTOMER', 'ROLE_STAFF', 'ROLE_DIRECTOR')")
-                .antMatchers( "/shopping-cart/**", "/api/carts").access("hasRole('ROLE_CUSTOMER')")
+                .antMatchers( "/shopping-cart/**", "/api/carts/**").access("hasRole('ROLE_CUSTOMER')")
                 .antMatchers( "/dashboard/**").access("hasAnyRole('ROLE_STAFF', 'ROLE_DIRECTOR')")
                 .anyRequest().authenticated();
         http.formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/home", false)
-                .successHandler(successHandler());
+                .defaultSuccessUrl("/home", false);
+                //.successHandler(successHandler());
                 //.failureHandler(authenticationFailureHandler());
         http.exceptionHandling()
                 .accessDeniedPage("/error/forbidden")
                 .authenticationEntryPoint(unauthorizedHandler);
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.logout()
 				.deleteCookies("JSESSIONID")
     			.permitAll();

@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,9 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
+    @Serial
+    private static final long serialVersionUID = 2113589074080836146L;
+
     private User user;
 
     @Override
@@ -57,6 +61,5 @@ public class UserDetailsImpl implements UserDetails {
     public String toString() {
         return user.getUsername();
     }
-
 
 }
