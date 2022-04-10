@@ -71,7 +71,6 @@ function filterProduct(key, value) {
 }
 
 /* Cart ------------------------------------------------------------------------------------------------------------- */
-
 /* Add to cart */
 function addToCart(productId) {
     // let quantity = $('#select-quantity').val();
@@ -87,7 +86,6 @@ function addToCart(productId) {
     //         location.reload();
     //     }
     // });
-
     if (!$('#is-customer').val()) {
         Swal.fire({
             icon: 'info',
