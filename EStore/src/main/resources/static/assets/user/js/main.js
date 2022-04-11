@@ -73,19 +73,20 @@ function filterProduct(key, value) {
 /* Cart ------------------------------------------------------------------------------------------------------------- */
 /* Add to cart */
 function addToCart(productId) {
-	// let quantity = $('#select-quantity').val();
-	// $.ajax({
-	//     url: baseUrl + '/api/carts',
-	//     type: 'POST',
-	//     contentType: 'application/json',
-	//     data: JSON.stringify({
-	//         productId: productId,
-	//         quantity: !quantity ? 1 : quantity
-	//     }),
-	//     success: function() {
-	//         location.reload();
-	//     }
-	// });
+	/*let quantity = $('#select-quantity').val();
+	$.ajax({
+	    url: baseUrl + '/api/carts',
+	    type: 'POST',
+	    contentType: 'application/json',
+	    data: JSON.stringify({
+	        productId: productId,
+	        quantity: !quantity ? 1 : quantity
+	    }),
+	    success: function() {
+	        location.reload();
+	    }
+	});*/
+
 	if (!$('#is-customer').val()) {
 		Swal.fire({
 			icon: 'info',
@@ -110,6 +111,7 @@ function addToCart(productId) {
 			}
 		});
 		return false;
+		//window.location.href = baseUrl + '/login';
 	}
 
 	let quantity = $('#select-quantity').val() || 1;

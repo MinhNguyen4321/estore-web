@@ -123,7 +123,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div th:unless="${productsInCart.size() > 0}"
+                        <div th:unless="${productsInCart.size() > 0}" sec:authorize="isAuthenticated()"
                              class="dropdown-menu dropdown-menu-end text-center py-4 px-3">
                             <div style="width: 16rem;"><img class="d-inline-block mb-2"
                                                             th:src="@{/assets/user/img/empty-cart.png}"
