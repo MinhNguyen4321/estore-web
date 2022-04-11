@@ -1,10 +1,7 @@
 package com.eshop.security;
 
-import com.eshop.security.handler.AuthenticationFailureHandlerCustom;
-import com.eshop.security.handler.LoginSuccessHandlerCustom;
-import com.eshop.security.jwt.AuthEntryPointJwt;
-import com.eshop.security.jwt.AuthTokenFilter;
-import com.eshop.security.service.UserDetailServiceImpl;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import javax.sql.DataSource;
+import com.eshop.security.handler.AuthenticationFailureHandlerCustom;
+import com.eshop.security.handler.LoginSuccessHandlerCustom;
+import com.eshop.security.jwt.AuthEntryPointJwt;
+import com.eshop.security.jwt.AuthTokenFilter;
+import com.eshop.security.service.UserDetailServiceImpl;
 
 @Configuration
 @EnableWebSecurity

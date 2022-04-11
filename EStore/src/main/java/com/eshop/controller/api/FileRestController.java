@@ -9,7 +9,6 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/api/files")
 public class FileRestController {
     @Autowired
