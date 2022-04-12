@@ -111,7 +111,6 @@ function addToCart(productId) {
 			}
 		});
 		return false;
-		//window.location.href = baseUrl + '/login';
 	}
 
 	let quantity = $('#select-quantity').val() || 1;

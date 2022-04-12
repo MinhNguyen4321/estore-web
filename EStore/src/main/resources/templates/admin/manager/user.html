@@ -132,7 +132,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="user in users track by $index" ng-hide="user.email === emailCurrentUser">
+    <tr ng-repeat="user in users track by $index">
         <td class="align-middle">
             <img class="img-fluid rounded-circle" alt="{{user.username}}"
                  ng-src="/assets/user/img/avatar/{{user.photo ? user.photo : 'default.png'}}"
