@@ -632,6 +632,7 @@ app.controller('userManagerCtrl', function ($scope, $http, $rootScope) {
     $scope.index = -1;
     $scope.newUser = function () {
         $scope.user = {};
+        $scope.user.photo = 'default.png';
         $scope.index = -1;
 
         $scope.userForm.$setUntouched();
