@@ -1,8 +1,9 @@
 package com.eshop.controller.admin;
 
-import com.eshop.dto.*;
-import com.eshop.service.*;
-import com.eshop.utils.MapperUtils;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,15 +11,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.ParseException;
-import java.util.List;
-import java.util.Optional;
+import com.eshop.dto.BrandDTO;
+import com.eshop.dto.CategoryDTO;
+import com.eshop.dto.OrderDTO;
+import com.eshop.dto.OrderReport;
+import com.eshop.dto.SaleReport;
+import com.eshop.service.BrandService;
+import com.eshop.service.CategoryService;
+import com.eshop.service.OrderService;
+import com.eshop.service.ProductService;
+import com.eshop.utils.MapperUtils;
 
 @Controller
 @RequestMapping("/dashboard")
 public class DashboardController {
-    @Autowired
-    private UserService userService;
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -27,8 +33,6 @@ public class DashboardController {
     private BrandService brandService;
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private DiscountService discountService;
 
     @RequestMapping("/report")
     public String showReportPage(Model model, @RequestParam Optional<String> brand,
