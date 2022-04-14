@@ -296,6 +296,8 @@
     <!-- Account menu toggler (hidden on screens larger 992px)-->
     <div class="d-block d-lg-none p-4">
         <a class="btn btn-outline-accent d-block" href="#manage-menu" data-bs-toggle="collapse"><i
+                class="ci-settings me-2"></i><span th:text="#{global.manage}"></span></a>
+        <a class="btn btn-outline-accent d-block" href="#manage-menu" data-bs-toggle="collapse"><i
                 class="ci-settings me-2"></i><span th:text="#{global.manage}"></span>
         </a>
         <a class="btn btn-outline-accent d-block" href="#account-menu" data-bs-toggle="collapse"><i
@@ -304,6 +306,18 @@
     </div>
     <!-- Actual menu-->
     <div class="h-100 border-end mb-2">
+        <div class="d-lg-block collapse" id="statistic-menu">
+            <div class="bg-secondary p-4">
+                <h3 class="fs-sm mb-0 text-muted" th:text="#{global.statistic}"></h3>
+            </div>
+            <ul class="list-unstyled mb-0">
+                <li class="border-bottom mb-0">
+                    <a class="nav-link-style d-flex align-items-center px-4 py-3" th:href="@{'#!report'}">
+                        <i class="ci-view-grid opacity-60 me-2"></i><span th:text="#{admin.report.synthesis}"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
         <div class="d-lg-block collapse" id="manage-menu">
             <div class="bg-secondary p-4">
                 <h3 class="fs-sm mb-0 text-muted" th:text="#{global.manage}"></h3>
@@ -329,13 +343,13 @@
                             class="m_title" th:text="#{global.products}"></span>
                     </a>
                 </li>
-                <li class="border-bottom mb-0">
+                <!-- <li class="border-bottom mb-0">
                     <a class="nav-link-style d-flex align-items-center px-4 py-3"
                        th:href="@{'#!user-management'}">
                         <i class="ci-user-circle opacity-60 me-2"></i><span
                             class="m_title" th:text="#{global.user}"></span>
                     </a>
-                </li>
+                </li> -->
                 <li class="border-bottom mb-0">
                     <a class="nav-link-style d-flex align-items-center px-4 py-3"
                        th:href="@{'#!discount-management'}">

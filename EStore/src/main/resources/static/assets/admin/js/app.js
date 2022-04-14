@@ -1,3 +1,6 @@
+let baseUrl = window.location.origin;
+let lang = $('#lang').val();
+
 let app = angular.module('adminApp', ['ngRoute', 'datatables', 'datetime']);
 
 app.directive('fileModel', ['$parse', function ($parse) {
@@ -18,6 +21,10 @@ app.directive('fileModel', ['$parse', function ($parse) {
 
 app.config(function ($routeProvider) {
     $routeProvider
+    	.when('/report', {
+            templateUrl: '/dashboard/report',
+            controller: 'reportManagerCtrl'
+        })
         .when('/category-management', {
             templateUrl: '/dashboard/category-management',
             controller: 'categoryManagerCtrl'
@@ -43,7 +50,7 @@ app.config(function ($routeProvider) {
             controller: 'authorityManagerCtrl'
         })
         .otherwise({
-            redirectTo: '/category-management'
+            redirectTo: '/report'
         });
 });
 
@@ -133,6 +140,68 @@ app.run(function ($rootScope) {
                 .replace(/-+$/, '');
         }
     };
+});
+
+app.controller('reportManagerCtrl', function ($scope, $http, $rootScope) {
+    $('<script></script>').attr('src', '/assets/user/js/theme.min.js').appendTo('body');
+    $('<script></script>').attr('src', '/assets/admin/js/main.js').appendTo('body');
+
+    $('#inventory-by-category-table').DataTable({
+        "scrollY": false,
+        "language": {
+            "url": lang === "vi" ? "//cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json" : "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
+        },
+        "responsive": true
+    });
+
+    $('#sale-report-table').DataTable({
+        "scrollY": false,
+        "language": {
+            "url": lang === "vi" ? "//cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json" : "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
+        },
+        "responsive": true
+    });
+
+    $('#inventory-by-brand-table').DataTable({
+        "scrollY": false,
+        "language": {
+            "url": lang === "vi" ? "//cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json" : "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
+        },
+        "responsive": true,
+    });
+
+    $('#order-statistics-table').DataTable({
+        "scrollY": false,
+        "language": {
+            "url": lang === "vi" ? "//cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json" : "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
+        },
+        "responsive": true,
+    });
+
+    $('#select-brand').on('change', function() {
+        let brandSlug = $(this).val();
+        if (brandSlug !=='default') {
+            window.location.href = baseUrl + '/dashboard/report?brand=' + brandSlug;
+        } else {
+            window.location.href = baseUrl + '/dashboard/report';
+        }
+    });
+
+    $("#range-date").flatpickr({
+        mode: 'range',
+        altInput: true,
+        altFormat: "d/m/Y",
+        dateFormat: "d/m/Y",
+        onChange: function(dates) {
+            if (dates.length == 2) {
+                // Convert date to string dd/mm/yyyy
+                let startDate = moment(dates[0]).format('DD/MM/YYYY');
+                let endDate = moment(dates[1]).format('DD/MM/YYYY');
+
+                window.location.href = baseUrl + '/dashboard/report?startDate=' + startDate + '&endDate=' + endDate;
+            }
+        }
+    });
 });
 
 app.controller('categoryManagerCtrl', function ($scope, $http, $rootScope) {
